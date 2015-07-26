@@ -17,12 +17,7 @@ namespace System
         private bool hasValue;
         private dynamic value;
 
-        public Schrodinger()
-        {
-            // Waits 10 milliseconds to ensure difference in random seed.
-            new ManualResetEvent(false).WaitOne(10);
-            rnd = new Random(unchecked((int)DateTime.Now.Ticks));
-        }
+        private static object syncObject = new object();
 
         public new Type GetType()
         {
@@ -49,51 +44,58 @@ namespace System
 
         private dynamic GetValue()
         {
-            if (!hasValue)
+            lock (syncObject)
             {
-                type = this.GetType();
-                if (type == typeof(bool))
+                if (!hasValue)
                 {
-                    value = (rnd.Next(int.MinValue, int.MaxValue) % 2 == 0);
-                }
-                else if (type == typeof(string))
-                {
-                    // Generates a random string.
-                    value = this.CreateRandomString();
-                }
-                else if (type == typeof(char))
-                {
-                    var str = this.CreateRandomString();
-                    var index = rnd.Next(str.Length);
-                    value = str[index];
-                }
-                else if (type == typeof(Guid))
-                {
-                    value = Guid.NewGuid();
-                }
-                else if (type == typeof(object))
-                {
-                    value = (rnd.Next(int.MinValue, int.MaxValue) % 2 == 0 ? new object() : null);
-                }
-                else
-                {
-                    double minValue, maxValue;
-                    this.GetBoundaries(type, out minValue, out maxValue);
+                    // Waits 10 milliseconds to ensure difference in random seed.
+                    new ManualResetEvent(false).WaitOne(10);
+                    rnd = new Random(unchecked((int)DateTime.Now.Ticks));
 
-                    var temp = rnd.NextDouble() * (maxValue - minValue) + minValue;
-
-                    // Handles dates and times separately.
-                    if (type == typeof(DateTime))
-                        value = new DateTime((long)temp);
-                    else if (type == typeof(DateTimeOffset))
-                        value = new DateTimeOffset((long)temp, TimeSpan.FromHours(rnd.Next(-14, 15)));
-                    else if (type == typeof(TimeSpan))
-                        value = new TimeSpan((long)temp);
+                    type = this.GetType();
+                    if (type == typeof(bool))
+                    {
+                        value = (rnd.Next(int.MinValue, int.MaxValue) % 2 == 0);
+                    }
+                    else if (type == typeof(string))
+                    {
+                        // Generates a random string.
+                        value = this.CreateRandomString();
+                    }
+                    else if (type == typeof(char))
+                    {
+                        var str = this.CreateRandomString();
+                        var index = rnd.Next(str.Length);
+                        value = str[index];
+                    }
+                    else if (type == typeof(Guid))
+                    {
+                        value = Guid.NewGuid();
+                    }
+                    else if (type == typeof(object))
+                    {
+                        value = (rnd.Next(int.MinValue, int.MaxValue) % 2 == 0 ? new object() : null);
+                    }
                     else
-                        value = Convert.ChangeType(temp, type, CultureInfo.InvariantCulture);
-                }
+                    {
+                        double minValue, maxValue;
+                        this.GetBoundaries(type, out minValue, out maxValue);
 
-                hasValue = true;
+                        var temp = rnd.NextDouble() * (maxValue - minValue) + minValue;
+
+                        // Handles dates and times separately.
+                        if (type == typeof(DateTime))
+                            value = new DateTime((long)temp);
+                        else if (type == typeof(DateTimeOffset))
+                            value = new DateTimeOffset((long)temp, TimeSpan.FromHours(rnd.Next(-14, 15)));
+                        else if (type == typeof(TimeSpan))
+                            value = new TimeSpan((long)temp);
+                        else
+                            value = Convert.ChangeType(temp, type, CultureInfo.InvariantCulture);
+                    }
+
+                    hasValue = true;
+                }
             }
 
             return value;

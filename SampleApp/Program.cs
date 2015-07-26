@@ -31,7 +31,6 @@ namespace SampleApp
                 Console.WriteLine();
 
                 Debug.WriteLine(i);
-
                 Thread.Sleep(1000);
             }
         }
