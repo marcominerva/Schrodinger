@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp.csproj", "{08E6B92C-7349-4825-AFC1-E830A3A63966}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchrodingerType", "SchrodingerType\SchrodingerType.csproj", "{EC581660-16D1-464C-896B-5C0E77A3CF27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchrodingerType", "SchrodingerType\SchrodingerType.csproj", "{DAAEA1E5-8973-45FC-A56A-38AD89AC6537}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +17,15 @@ Global
 		{08E6B92C-7349-4825-AFC1-E830A3A63966}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08E6B92C-7349-4825-AFC1-E830A3A63966}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08E6B92C-7349-4825-AFC1-E830A3A63966}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC581660-16D1-464C-896B-5C0E77A3CF27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC581660-16D1-464C-896B-5C0E77A3CF27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC581660-16D1-464C-896B-5C0E77A3CF27}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC581660-16D1-464C-896B-5C0E77A3CF27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAAEA1E5-8973-45FC-A56A-38AD89AC6537}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAAEA1E5-8973-45FC-A56A-38AD89AC6537}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAAEA1E5-8973-45FC-A56A-38AD89AC6537}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAAEA1E5-8973-45FC-A56A-38AD89AC6537}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9D812F9E-445B-40EC-B9FE-67ABB6C17B36}
 	EndGlobalSection
 EndGlobal

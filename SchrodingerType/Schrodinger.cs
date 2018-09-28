@@ -17,7 +17,7 @@ namespace System
         private bool hasValue;
         private dynamic value;
 
-        private static object syncObject = new object();
+        private static readonly object syncObject = new object();
 
         public new Type GetType()
         {
@@ -25,21 +25,17 @@ namespace System
             if (type == null)
             {
                 var typeNumber = rnd.Next(0, TYPES_COUNT);
-                type = this.GetActualType(typeNumber);
+                type = GetActualType(typeNumber);
             }
 
             return type;
         }
 
-        public dynamic Value
-        {
-            // Until you check it, it could be any value.
-            get { return this.GetValue(); }
-        }
+        public dynamic Value => GetValue();
 
         public override string ToString()
         {
-            return this.GetValue().ToString();
+            return GetValue().ToString();
         }
 
         private dynamic GetValue()
@@ -60,11 +56,11 @@ namespace System
                     else if (type == typeof(string))
                     {
                         // Generates a random string.
-                        value = this.CreateRandomString();
+                        value = CreateRandomString();
                     }
                     else if (type == typeof(char))
                     {
-                        var str = this.CreateRandomString();
+                        var str = CreateRandomString();
                         var index = rnd.Next(str.Length);
                         value = str[index];
                     }
@@ -78,20 +74,27 @@ namespace System
                     }
                     else
                     {
-                        double minValue, maxValue;
-                        this.GetBoundaries(type, out minValue, out maxValue);
+                        GetBoundaries(type, out var minValue, out var maxValue);
 
                         var temp = rnd.NextDouble() * (maxValue - minValue) + minValue;
 
                         // Handles dates and times separately.
                         if (type == typeof(DateTime))
+                        {
                             value = new DateTime((long)temp);
+                        }
                         else if (type == typeof(DateTimeOffset))
+                        {
                             value = new DateTimeOffset((long)temp, TimeSpan.FromHours(rnd.Next(-14, 15)));
+                        }
                         else if (type == typeof(TimeSpan))
+                        {
                             value = new TimeSpan((long)temp);
+                        }
                         else
+                        {
                             value = Convert.ChangeType(temp, type, CultureInfo.InvariantCulture);
+                        }
                     }
 
                     hasValue = true;
@@ -200,7 +203,8 @@ namespace System
                 }
             }
             catch
-            { }
+            {
+            }
         }
 
         private string CreateRandomString()
@@ -224,37 +228,42 @@ namespace System
                 return retVal;
             }
 
-            if (obj == null || !(obj is Schrodinger))
-                return -1;
-
-            var dest = obj as Schrodinger;
-
-            try
+            if (obj is Schrodinger dest)
             {
-                if (this.value < dest.value)
+
+                try
+                {
+                    if (value < dest.value)
+                    {
+                        return -1;
+                    }
+                }
+                catch
+                {
                     return -1;
-            }
-            catch
-            {
-                return -1;
-            }
+                }
 
-            try
-            {
-                if (this.value > dest.value)
+                try
+                {
+                    if (value > dest.value)
+                    {
+                        return 1;
+                    }
+                }
+                catch
+                {
                     return 1;
-            }
-            catch
-            {
-                return 1;
+                }
+
+                return 0;
             }
 
-            return 0;
+            return -1;
         }
 
         public bool Equals(Schrodinger other)
         {
-            return this.CompareTo(other) == 0;
+            return CompareTo(other) == 0;
         }
     }
 }

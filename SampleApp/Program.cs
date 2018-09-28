@@ -12,21 +12,25 @@ namespace SampleApp
     {
         static void Main(string[] args)
         {
-            for (int i = 0; i < 10000; i++)
+            for (var i = 0; i < 10000; i++)
             {
-                var s = new Schrodinger();
-                var val = s.Value;
+                var s1 = new Schrodinger();
+                var val1 = s1.Value;
 
                 var s2 = new Schrodinger();
                 var val2 = s2.Value;
 
-                var eq = s.CompareTo(s2);
+                var eq = s1.CompareTo(s2);
 
-                if (val != null)
-                    Console.WriteLine(val);
+                if (val1 != null)
+                {
+                    Console.WriteLine(val1);
+                }
 
                 if (val2 != null)
+                {
                     Console.WriteLine(val2);
+                }
 
                 Console.WriteLine();
 
